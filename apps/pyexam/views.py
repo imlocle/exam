@@ -48,7 +48,7 @@ def pokes(request):
     user = User.objects.all()
     poked_me = User.objects.values('name').annotate(count = Count('name')).filter(poke_to_else__user__id = current_user.id).order_by('-count')
     count_poked_me = User.objects.filter(poke_to_else__user__id = current_user.id).count() #count for how many times people poked me
-    not_user = User.objects.filter(~Q(id = current_user.id)).annotate(count = Count('poke_to_else'))
+    not_user = User.objects.filter(~Q(id = current_user.id)).annotate(count = Count('user_to_poke'))
     context = {
                 'current_user':current_user,
                 'poked_me': poked_me,
