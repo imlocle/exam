@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Pokes</title>
+  </head>
+  <body>
+    <h1>Welcome {{current_user.name}}!</h1>
+    <a href="/logout">Log Out</a>
+    <h2>{{count_poked_me}} people poked you!</h2>
+    {% if not poked_me %}
+    <fieldset>
+      <h3>No Pokes Yet!</h3>
+    </fieldset>
+    {% else %}
+    <fieldset>
+      <ul>
+        {% for x in poked_me %}
+        <li>{{x.name}} poked you {{x.count}} times! </li>
+        {% endfor %}
+      </ul>
+    </fieldset>
+    {% endif %}
+    <h3>People you may want to poke:</h3>
+    <fieldset>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Alias</th>
+          <th>Email Address</th>
+          <th>Poke History</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for x in not_user %}
+        <tr>
+          <td>{{x.name}}</td>
+          <td>{{x.alias}}</td>
+          <td>{{x.email}}</td>
+          <td>{{x.count}} pokes</td>
+          <td><form action="/poking_action/{{x.id}}" method="post">
+            {% csrf_token %}
+            <button type="submit">Poke!</button>
+          </form></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </fieldset>
+  </body>
+</html>
